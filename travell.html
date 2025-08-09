@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TRAVEL EASE</title>
+ 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://wallpaperaccess.com/full/185289.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.96);
+      padding: 40px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+        
+      text-align: center;
+      margin-bottom: 25px;
+      color: #991f1f;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 30px;
+      background-color: #007BFF;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .summary {
+      font-size: 14px;
+      background-color: #f7f7f7;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Step 1 -->
+    <div id="step1">
+      <h2>BOOK MY TRIP</h2>
+      <form id="formStep1">
+        <label for="from">From</label>
+        <input type="text" id="from" placeholder="e.g., New York" required />
+
+        <label for="to">To</label>
+        <input type="text" id="to" placeholder="e.g., Paris" required />
+
+        <label for="date">Date of Travel</label>
+        <input type="date" id="date" required />
+
+        <label for="passengers">Passengers</label>
+        <input type="number" id="passengers" min="1" value="1" required />
+
+        <button type="submit">Next</button>
+      </form>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2" class="hidden">
+      <h2>Traveler Profile</h2>
+      <div class="summary" id="travelSummary"></div>
+      <form id="formStep2">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required />
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" required />
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" required />
+
+        <button type="submit">Confirm Booking</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const formStep1 = document.getElementById('formStep1');
+    const formStep2 = document.getElementById('formStep2');
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const summaryBox = document.getElementById('travelSummary');
+
+    let bookingData = {};
+
+    formStep1.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Get values from Step 1
+      bookingData.from = document.getElementById('from').value;
+      bookingData.to = document.getElementById('to').value;
+      bookingData.date = document.getElementById('date').value;
+      bookingData.passengers = document.getElementById('passengers').value;
+
+      // Show Step 2
+      step1.classList.add('hidden');
+      step2.classList.remove('hidden');
+
+      // Populate summary
+      summaryBox.innerHTML = `
+        <strong>From:</strong> ${bookingData.from}<br>
+        <strong>To:</strong> ${bookingData.to}<br>
+        <strong>Date:</strong> ${bookingData.date}<br>
+        <strong>Passengers:</strong> ${bookingData.passengers}
+      `;
+    });
+
+    formStep2.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Get values from Step 2
+      bookingData.name = document.getElementById('name').value;
+      bookingData.email = document.getElementById('email').value;
+      bookingData.phone = document.getElementById('phone').value;
+
+      // Show confirmation
+      alert("✅ Booking Confirmed!\n\n" + JSON.stringify(bookingData, null, 2));
+
+      // Reset everything (optional)
+      formStep1.reset();
+      formStep2.reset();
+      step2.classList.add('hidden');
+      step1.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
